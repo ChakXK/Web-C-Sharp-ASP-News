@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@Html.Partial("EditorsChoicePartial")
+@Html.Partial("LastTabsPartial")
+<!-- 2 КАТЕГОРИИ -->
+<!-- SECTION -->
+<div class="section">
+    <!-- CONTAINER -->
+    <div class="container">
+        <!-- ROW -->
+        <div class="row">
+            <!-- Main Column -->
+            @Html.Partial("SomeCategoriesPartial");
+            <!-- /Main Column -->
+            <!-- Aside Column -->
+            @Html.Partial("MostReadPartial")
+            <!-- /Aside Column -->
+        </div>
+        <!-- /ROW -->
+    </div>
+    <!-- /CONTAINER -->
+</div>
+<!-- /SECTION -->
+<!-- SECTION -->
+<div class="section">
+    <!-- CONTAINER -->
+    <div class="container">
+        <!-- ROW -->
+        <div class="row">
+            @Html.Partial("LastsVerticalPartial");
+            <!-- Aside Column -->
+            @Html.Partial("DiscountsPartial")
+            <!-- /Aside Column -->
+        </div>
+        <!-- /ROW -->
+    </div>
+    <!-- /CONTAINER -->
+</div>
+<!-- /SECTION -->

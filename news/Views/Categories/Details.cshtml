@@ -1,0 +1,78 @@
+﻿@model PagedList.IPagedList<news.Models.Article>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!-- SECTION -->
+<div class="section">
+    <!-- CONTAINER -->
+    <div class="container">
+        <!-- ROW -->
+        <div class="row">
+            <!-- СТАТЬИ -->
+            <div class="col-md-8">
+                <!-- section title -->
+                <div class="section-title">
+                    <h2 class="title">@Model[0].Category.Name</h2>
+                </div>
+                <!-- /section title -->
+                @foreach (var item in Model)
+                {
+                    <!-- ARTICLE -->
+                    <article class="article row-article">
+                        <div class="article-img">
+                            <a href="/Articles/Details/@item.Id">
+                                <img src="@Url.Content("~/Content/imgfiles/" + item.Images.Where(img => img.Number == 1)?.First()?.Id +
+item.Images.Where(img => img.Number == 1)?.First()?.Name)" alt="">
+                            </a>
+                        </div>
+                        <div class="article-body">
+                            <ul class="article-info">
+                                <li class="article-category"><a href="/Articles/Details/@item.Id_category">@item.Category.Name</a></li>
+                            </ul>
+                            <h3 class="article-title"><a href="/Articles/Details/@item.Id">@item.Heading</a></h3>
+                            <ul class="article-meta">
+                                <li><i class="fa fa-clock-o"></i> @item.Datetime</li>
+                                <li><i></i> @item.Views</li>
+                                <li><i class="fa fa-comments"></i> @item.Comments.Count</li>
+                            </ul>
+                            <p>@item.Briefly</p>
+                        </div>
+                    </article>
+                    <!-- /ARTICLE -->
+                }
+
+                <!-- pagination -->
+                <div class="article-pagination">
+                    Страница @(Model.PageCount < Model.PageNumber ? 1 : Model.PageNumber) из @Model.PageCount
+                    <ul>
+                        @for (int p = 1; p <= Model.PageCount; p++)
+                        {
+                            if (p == Model.PageNumber)
+                            {
+                                <li class="active"><a href="\Categories\Details?id=@Model[0].Id_category&page=@p" class="active">@p</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="\Categories\Details?id=@Model[0].Id_category&page=@p">@p</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <!-- /pagination -->
+            </div>
+            <!-- /Main Column -->
+            @Html.Partial("DiscountsPartial")
+            @Html.Partial("MostReadPartial")
+        </div>
+        <!-- /ROW -->
+    </div>
+    <!-- /CONTAINER -->
+</div>
+<!-- /SECTION -->
+
+@Html.Partial("LastsHorizontalPartial")
+<p>
+    @Html.ActionLink("Назад на главную", "Index", "Home", null, null)
+</p>

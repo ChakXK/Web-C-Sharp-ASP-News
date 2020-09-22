@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNet.Identity
+@using System.Linq;
+@using System.Threading.Tasks;
+@using System.Net;
+@using System.Web;
+@using System.Web.Mvc;
+@using news.Models;
+
+
+@{ApplicationDbContext db = new ApplicationDbContext();
+    var twoarticles = db.Articles.Where(a => a.Category.Name == "Скидки").OrderByDescending(a => a.Datetime).Take(2).ToList();}
+
+<!-- Aside Column -->
+<div class="col-md-4">
+    <!-- article widget -->
+    <div class="widget">
+        <div class="widget-title">
+            <h2 class="title">СКИДКИ</h2>
+        </div>
+        <!-- owl carousel 4 -->
+        <div id="owl-carousel-4" class="owl-carousel owl-theme">
+            @foreach (var a in twoarticles)
+            {
+            <!-- ARTICLE -->
+            <article class="article thumb-article">
+                <div class="article-img">
+                    <img src="@Url.Content("~/Content/imgfiles/" + a.Images.Where(img => img.Number == 1)?.First()?.Id +
+a.Images.Where(img => img.Number == 1)?.First()?.Name)" alt="">
+                </div>
+                <div class="article-body">
+                    <h3 class="article-title"><a href="/Articles/Details/@a.Id">@a.Heading</a></h3>
+                    <ul class="article-meta">
+                        <li><i class="fa fa-clock-o"></i>  @a.Datetime</li>
+                        <li><i class="fa fa-comments"></i> @a.Comments.Count</li>
+                    </ul>
+                </div>
+            </article>
+            }
+            <!-- /ARTICLE -->
+        </div>
+        <!-- /owl carousel 4 -->
+    </div>
+    <!-- /article widget -->
+</div>
+<!-- /Aside Column -->

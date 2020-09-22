@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNet.Identity
+@using System.Linq;
+@using System.Threading.Tasks;
+@using System.Net;
+@using System.Web;
+@using System.Web.Mvc;
+@using news.Models;
+
+
+<!-- Header -->
+    <header id="header">
+        <!-- Top Header -->
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()
+                <div id="top-header">
+                    <div class="container">
+                        <div class="header-links">
+                            <ul>
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
+                                <li><a href="\Articles\Index">Редакция</a></li>
+                                <li><a href="\Comments\Index">Комментарии</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div id="top-header">
+                <div class="container">
+                    <div class="header-links">
+                        <ul>
+                            <li><a href="\Account\Login"><i class="fa fa-sign-in"></i>Для администратора</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- /Top Header -->
+        <!-- Center Header -->
+        <div id="center-header">
+            <div class="container">
+                <div class="header-logo">
+                    <a href="/" class="logo"><img src="@Url.Content("~/Content/img/logo.png")" alt=""></a>
+                </div>
+            </div>
+        </div>
+        <!-- /Center Header -->
+        <!-- Nav Header -->
+        <div id="nav-header">
+            <div class="container">
+                <nav id="main-nav">
+                    <div class="nav-logo">
+                        <a href="/" class="logo"><img src="@Url.Content("~/Content/img/logo-alt.png")" alt=""></a>
+                    </div>
+                    <ul class="main-nav nav navbar-nav">
+                        <li  class="active"><a href="/">Главная</a></li>
+                        @{ApplicationDbContext db = new ApplicationDbContext();
+                            var categories = db.Categories.ToList();}
+
+                        @foreach (var category in categories)
+                        {
+                            <li ><a href="/Categories/Details/@category.Id">@category.Name</a></li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /Nav Header -->
+    </header>
+<!-- /Header -->

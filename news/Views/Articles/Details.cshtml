@@ -1,0 +1,92 @@
+﻿@model news.Models.Article
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!-- SECTION -->
+<div class="section">
+    <!-- CONTAINER -->
+    <div class="container">
+        <!-- ROW -->
+        <div class="row">
+            <!-- Main Column -->
+            <div class="col-md-8">
+
+                <!-- breadcrumb -->
+                <ul class="article-breadcrumb">
+                    <li><a href="/">Главна</a></li>
+                    <li><a href="/Categories/Details/@Model.Id_category">@Model.Category.Name</a></li>
+                    <li>>@Model.Briefly</li>
+                </ul>
+                <!-- /breadcrumb -->
+                <!-- ARTICLE POST -->
+                <article class="article article-post">
+                    <div class="article-main-img">
+                        <img src="@Url.Content("~/Content/imgfiles/" + Model.Images.Where(img => img.Number == 1)?.First()?.Id +
+ Model.Images.Where(img => img.Number == 1)?.First()?.Name)" alt="">
+                    </div>
+                    <div class="article-body">
+                        <ul class="article-info">
+                            <li class="article-category"><a href="/Categories/Details/@Model.Id_category">@Model.Category.Name</a></li>
+                        </ul>
+                        <h1 class="article-title">@Model.Heading</h1>
+                        <ul class="article-meta">
+                            <li><i class="fa fa-clock-o"></i> @Model.Datetime</li>
+                            <li><i></i> Просмотров: @Model.Views</li>
+                            <li><i class="fa fa-comments"></i>@Model.Comments.Count</li>
+                        </ul>
+                        <p>@Model.Text</p>
+                    </div>
+                </article>
+                <!-- /ARTICLE POST -->
+                <!-- article comments -->
+                <div class="article-comments">
+                    <div class="section-title">
+                        <h2 class="title">Комментарии</h2>
+                    </div>
+                    @foreach (var c in Model.Comments)
+                    {
+                    <!-- comment -->
+                    <div class="media">
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <h5>@c.User_Name<span class="reply-time"> @c.Datetime</span></h5>
+                            </div>
+                            <p>@c.Text</p>
+                            @*<a href="#" class="reply-btn">Reply</a>*@
+                        </div>
+                    </div>
+                    <!-- /comment -->
+                    }
+                </div>
+                    <!-- /article comments -->
+                    <!-- reply form -->
+                <div class="article-reply-form">
+                    <div class="section-title">
+                        <h2 class="title">Оставить комментарий</h2>
+                    </div>
+                    @using (Html.BeginForm("Create", "Comments"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="Id_Article" value="@Model.Id" />
+                        <input class="input" placeholder="Имя	" type="text" name="User_Name">
+                        <input class="input" placeholder="Email" type="email" name="Email">
+                        <textarea class="input" placeholder="Текст" name="Text" rows="5"></textarea>
+                        <input type="submit" value="Отправить" class="input-btn" />
+                    }
+                </div>
+            </div>
+            <!-- /Main Column -->
+                @Html.Partial("MostReadPartial")
+        </div>
+        <!-- /ROW -->
+    </div>
+    <!-- /CONTAINER -->
+</div>
+<!-- /SECTION -->
+
+@Html.Partial("LastsHorizontalPartial")
+<p>
+    <a href="/Categories/Details/@Model.Id_category">Назад</a>
+</p>

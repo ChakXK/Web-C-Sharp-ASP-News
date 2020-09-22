@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNet.Identity
+@using System.Linq;
+@using System.Threading.Tasks;
+@using System.Net;
+@using System.Web;
+@using System.Web.Mvc;
+@using news.Models;
+
+
+@{ApplicationDbContext db = new ApplicationDbContext();
+    var articles = db.Articles.OrderByDescending(a => a.Datetime).Take(4).ToList();}
+
+
+<!-- Main Column -->
+<div class="col-md-8">
+    <!-- section title -->
+    <div class="section-title">
+        <h2 class="title">АКТУАЛЬНОЕ</h2>
+    </div>
+    <!-- /section title -->
+    @foreach (var a in articles)
+    {
+    <!-- ARTICLE -->
+    <article class="article row-article">
+        <div class="article-img">
+            <a href="/Articles/Details/@a.Id">
+                <img src="@Url.Content("~/Content/imgfiles/" + a.Images.Where(img => img.Number == 1)?.First()?.Id +
+a.Images.Where(img => img.Number == 1)?.First()?.Name)" alt="">
+            </a>
+        </div>
+        <div class="article-body">
+            <ul class="article-info">
+                <li class="article-category"><a href="/Categories/Details/@a.Id_category">@a.Category.Name</a></li>
+            </ul>
+            <h3 class="article-title"><a href="/Articles/Details/@a.Id">@a.Heading</a></h3>
+            <ul class="article-meta">
+                <li><i class="fa fa-clock-o"></i> @a.Datetime</li>
+                <li><i class="fa fa-comments"></i> @a.Comments.Count</li>
+            </ul>
+            <p>@a.Briefly...</p>
+        </div>
+    </article>
+    <!-- /ARTICLE -->
+    }
+</div>
+<!-- /Main Column -->
